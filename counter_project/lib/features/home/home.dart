@@ -29,98 +29,115 @@ class _HomeState extends State<Home> {
       buildWhen: (previous, current) => current is HomeActionState,
       listenWhen: (previous, current) => current is HomeActionState,
       listener: (context, state) {
-        if(state is TogglebuttonNavigatestate){
+        if (state is TogglebuttonNavigatestate) {
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => Converter()));
         }
       },
       builder: (context, state) {
         // if (state is HomeInitialstate) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Counter App', style: TextStyle(color: Colors.white)),
-              backgroundColor: Colors.purple,
-            ),
-            body: Column(
-              children: [
-                Expanded(
-                  child: Center(
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          BlocBuilder<HomeBloc, HomeState>(
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Counter App', style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.purple,
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        BlocBuilder<HomeBloc, HomeState>(
                             bloc: homebloc,
                             builder: (context, state) {
                               if (state is buttonclickedstate) {
                                 return Text("${state.number}");
-                              }
-                              else{
+                              } else {
                                 return Container();
                               }
                             }),
-                          SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              ElevatedButton(
-                                onPressed: () {homebloc.add(Plusbuttonclickedevent(state.number));},
-                                child: Icon(Icons.add),
-                              ),
-                              SizedBox(width: 20),
-                              ElevatedButton(
-                                onPressed: () {homebloc.add(Minusbuttonclickedevent(state.number));},
-                                child: Icon(Icons.remove),
-                              ),
-                            ],
-                          ),
-                          Container(
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            ElevatedButton(
+                              onPressed: () {
+                                homebloc
+                                    .add(Plusbuttonclickedevent(state.number));
+                              },
+                              child: Icon(Icons.add),
+                            ),
+                            SizedBox(width: 20),
+                            ElevatedButton(
+                              onPressed: () {
+                                homebloc
+                                    .add(Minusbuttonclickedevent(state.number));
+                              },
+                              child: Icon(Icons.remove),
+                            ),
+                          ],
+                        ),
+                        Container(
                             margin: EdgeInsets.only(top: 20),
                             padding: EdgeInsets.all(20),
-                            child: const Column(
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                SizedBox(width: 20,),
-                                Text('Value in Binary',style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
-                                Text('actual value'),
-
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Text('Value in Binary',
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold)),
+                                BlocBuilder<HomeBloc, HomeState>(
+                                  bloc: homebloc,
+                                  builder: (context, state) {
+                                    if (state is buttonclickedstate) {
+                                      return Text("${state.binary}");
+                                    } else {
+                                      return Container();
+                                    }
+                                  },
+                                )
                               ],
-                            )
-                          ),
-                        ],
-                      ),
+                            )),
+                      ],
                     ),
                   ),
                 ),
-                BottomNavigationBar(
-                  currentIndex: _currentIndex,
-                  onTap: (index){
-                    setState(() {
-                      _currentIndex=index;
-                    });
-                    switch(index){
-                      case 0:
-                        homebloc.add(HomeInitialEvent());
-                        break;
-                      case 1:
-                        homebloc.add(TogglebuttonNavigateevent());
-                        break;
-                    }
-                  },
-                  items: const [
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.arrow_circle_left),
-                      label: 'Counter',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.arrow_circle_right_outlined),
-                      label: 'Converter',
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
+              ),
+              BottomNavigationBar(
+                currentIndex: _currentIndex,
+                onTap: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                  switch (index) {
+                    case 0:
+                      homebloc.add(HomeInitialEvent());
+                      break;
+                    case 1:
+                      homebloc.add(TogglebuttonNavigateevent());
+                      break;
+                  }
+                },
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.arrow_circle_left),
+                    label: 'Counter',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.arrow_circle_right_outlined),
+                    label: 'Converter',
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
         // } else {
         //   return Scaffold(
         //     appBar: AppBar(

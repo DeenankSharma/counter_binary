@@ -14,8 +14,10 @@ class HomeInitialstate extends HomeState {
 
 class buttonclickedstate extends HomeActionState{
   final int number;
-  buttonclickedstate(this.number);
+  final String binary;
+  buttonclickedstate(this.number,this.binary);
   List<Object?> get props => [number];
+  
 }
 
 // class Minusbuttonclickedstate extends HomeActionState{}
