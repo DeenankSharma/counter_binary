@@ -18,6 +18,7 @@ class _ConverterState extends State<Converter> {
   }
 
   final ConverterBloc converterBloc = ConverterBloc();
+  final TextEditingController _binaryController = TextEditingController();
   int _currentIndex = 1;
 
   @override
@@ -46,10 +47,11 @@ class _ConverterState extends State<Converter> {
                   child: Center(
                     child: Container(
                       padding: const EdgeInsets.all(20),
-                      child:  Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           TextField(
+                            controller: _binaryController,
                             keyboardType: TextInputType.number,
                             obscureText: false,
                             decoration: InputDecoration(
@@ -57,14 +59,39 @@ class _ConverterState extends State<Converter> {
                                 labelText: 'Binary Input',
                                 hintText: 'Enter your binary number here...'),
                           ),
-                          SizedBox(height: 20,),
-                          ElevatedButton(onPressed:() {
-                            converterBloc.add(Convertbuttonclickedevent());
-                          }, child: Text('Convert')),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                converterBloc.add(Convertbuttonclickedevent(
+                                    binary: _binaryController.text));
+                              },
+                              child: Text(
+                                'Convert',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              )),
                           SizedBox(height: 20),
                           Text(
-                            'your output is here!',
-                            style: TextStyle(fontSize: 20),
+                            'The output is:',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          BlocBuilder<ConverterBloc, ConverterState>(
+                            bloc: converterBloc,
+                            builder: (context, state) {
+                              if(state is Convertbuttonclickedstate){
+                                return Text('${state.decimal}') ;
+                              }
+                              else{
+                                return Container();
+                              }
+                            },
                           )
                         ],
                       ),
