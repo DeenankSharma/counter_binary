@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
                             bloc: homebloc,
                             builder: (context, state) {
                               if (state is buttonclickedstate) {
-                                return Text("${state.number}");
+                                return Text("${state.number}",style: TextStyle(fontSize: 30),);
                               } else {
                                 return Container();
                               }
@@ -96,7 +96,7 @@ class _HomeState extends State<Home> {
                                   bloc: homebloc,
                                   builder: (context, state) {
                                     if (state is buttonclickedstate) {
-                                      return Text("${state.binary}");
+                                      return Text("${state.binary}",style: TextStyle(fontSize: 30),);
                                     } else {
                                       return Container();
                                     }

@@ -2,7 +2,7 @@ part of 'home_bloc.dart';
 
 @immutable
 abstract class HomeState {
-  final number = 0;
+  final int number = 0;
 }
 
 abstract class HomeActionState extends HomeState{}
@@ -13,10 +13,11 @@ class HomeInitialstate extends HomeState {
 }
 
 class buttonclickedstate extends HomeActionState{
+  @override
   final int number;
   final String binary;
   buttonclickedstate(this.number,this.binary);
-  List<Object?> get props => [number];
+  // List<Object?> get props => [number];
   
 }
 

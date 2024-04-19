@@ -70,7 +70,7 @@ class _ConverterState extends State<Converter> {
                               child: Text(
                                 'Convert',
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.purple,
                                     fontWeight: FontWeight.bold),
                               )),
                           SizedBox(height: 20),

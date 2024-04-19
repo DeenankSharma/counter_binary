@@ -1,4 +1,5 @@
 import 'dart:async';
+// import 'dart:js_util';
 
 import 'package:bloc/bloc.dart';
 import 'package:counter_project/data/b2d_api.dart';
@@ -24,8 +25,16 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
    emit(ConverterInitialState());
   }
 
-  FutureOr<void> convertbuttonclickedevent(Convertbuttonclickedevent event, Emitter<ConverterState> emit) async{
+  FutureOr<void> convertbuttonclickedevent(Convertbuttonclickedevent event, Emitter<ConverterState> emit) async {
+  try {
+    print(event.binary);
     String decimal = await binaryPost.b2d(event.binary);
+    print("response aagya");
+    print(decimal);
     emit(Convertbuttonclickedstate(decimal: decimal));
+  } catch (error) {
+    print("Error converting binary: $error");
   }
+}
+
 }

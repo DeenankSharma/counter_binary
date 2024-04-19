@@ -16,9 +16,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<Minusbuttonclickedevent>(minusbuttonclickedevent);
   }
 
-  FutureOr<void> homeInitialEvent(HomeInitialEvent event, Emitter<HomeState> emit) {
-  emit(buttonclickedstate(0,"0"));
+  FutureOr<void> homeInitialEvent(HomeInitialEvent event, Emitter<HomeState> emit) async {
+  final currentState = state;
+  if (currentState is buttonclickedstate) {
+    emit(currentState); 
+  } else {
+    emit(buttonclickedstate(0, "0")); 
   }
+}
+
 
   FutureOr<void> togglebuttonNavigateevent(TogglebuttonNavigateevent event, Emitter<HomeState> emit) {
     print('toggle karo plz');
@@ -27,13 +33,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   
   FutureOr<void> plusbuttonclickedevent(Plusbuttonclickedevent event, Emitter<HomeState> emit) async {
     print('sup');
+    print(event.number);
     String binary = await decimalPost.d2b((event.number+1));
+    print(binary);
+    // print(binary);
     emit(buttonclickedstate((event.number+1),binary));
   }
 
   FutureOr<void> minusbuttonclickedevent(Minusbuttonclickedevent event, Emitter<HomeState> emit) async {
     print('what');
+    print(event.number);
     String binary = await decimalPost.d2b((event.number-1));
+    print(binary);
+    // String binary =" ";
     emit(buttonclickedstate((event.number-1),binary));
   }
 }
