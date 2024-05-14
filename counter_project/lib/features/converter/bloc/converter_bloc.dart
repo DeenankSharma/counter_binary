@@ -30,7 +30,7 @@ FutureOr<void> convertbuttonclickedevent(Convertbuttonclickedevent event, Emitte
     String binary = event.binary;
     // print(event.binary);
     // String decimal = " ";
-    String decimal = int.parse(binary, radix: 2).toRadixString(10).toString();
+    String decimal = int.parse(binary, radix: 2).toRadixString(10);
     print(decimal);
     emit(Convertbuttonclickedstate(decimal: decimal));
   } catch (error) {

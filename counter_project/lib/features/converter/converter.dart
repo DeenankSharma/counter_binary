@@ -89,7 +89,9 @@ class _ConverterState extends State<Converter> {
                                 return Text('${state.decimal}') ;
                               }
                               else{
-                                return Container();
+                                return const Scaffold(
+
+                                );
                               }
                             },
                           )
