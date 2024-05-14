@@ -86,12 +86,10 @@ class _ConverterState extends State<Converter> {
                             bloc: converterBloc,
                             builder: (context, state) {
                               if(state is Convertbuttonclickedstate){
-                                return Text('${state.decimal}') ;
+                                return Text('${state.decimal}',style: TextStyle(fontSize: 20),) ;
                               }
                               else{
-                                return const Scaffold(
-
-                                );
+                                return Container();
                               }
                             },
                           )
