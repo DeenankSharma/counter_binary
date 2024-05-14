@@ -34,7 +34,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> plusbuttonclickedevent(Plusbuttonclickedevent event, Emitter<HomeState> emit) async {
     print('sup');
     print(event.number);
-    String binary = await decimalPost.d2b((event.number+1));
+    // String binary = await decimalPost.d2b((event.number+1));
+    String binary = (event.number+1).toRadixString(2);
     print(binary);
     // print(binary);
     emit(buttonclickedstate((event.number+1),binary));
@@ -43,7 +44,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> minusbuttonclickedevent(Minusbuttonclickedevent event, Emitter<HomeState> emit) async {
     print('what');
     print(event.number);
-    String binary = await decimalPost.d2b((event.number-1));
+    // String binary = await decimalPost.d2b((event.number-1));
+    String binary = (event.number-1).toRadixString(2);
     print(binary);
     // String binary =" ";
     emit(buttonclickedstate((event.number-1),binary));

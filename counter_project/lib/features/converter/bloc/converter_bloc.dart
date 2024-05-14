@@ -25,16 +25,17 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
    emit(ConverterInitialState());
   }
 
-  FutureOr<void> convertbuttonclickedevent(Convertbuttonclickedevent event, Emitter<ConverterState> emit) async {
+FutureOr<void> convertbuttonclickedevent(Convertbuttonclickedevent event, Emitter<ConverterState> emit) async {
   try {
-    print(event.binary);
-    String decimal = await binaryPost.b2d(event.binary);
-    print("response aagya");
+    String binary = event.binary;
+    // print(event.binary);
+    // String decimal = " ";
+    String decimal = int.parse(binary, radix: 2).toRadixString(10).toString();
     print(decimal);
     emit(Convertbuttonclickedstate(decimal: decimal));
   } catch (error) {
-    print("Error converting binary: $error");
+    // Handle the exception (e.g., show an error message to the user)
+    print('Error parsing binary: $error');
   }
 }
-
 }
