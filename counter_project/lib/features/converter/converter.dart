@@ -75,24 +75,10 @@ class _ConverterState extends State<Converter> {
                               )),
                           SizedBox(height: 20),
                           Text(
-                            'The output is:',
+                            'The output is: ${state is Convertbuttonclickedstate ? (state as Convertbuttonclickedstate).decimal : ""}',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          BlocBuilder<ConverterBloc, ConverterState>(
-                            bloc: converterBloc,
-                            builder: (context, state) {
-                              if(state is Convertbuttonclickedstate){
-                                return Text('${state.decimal}',style: TextStyle(fontSize: 20),) ;
-                              }
-                              else{
-                                return Container();
-                              }
-                            },
-                          )
                         ],
                       ),
                     ),
