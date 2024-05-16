@@ -1,29 +1,28 @@
+// import 'dart:js';
 import 'package:counter_project/features/converter/converter.dart';
+import 'package:counter_project/providers/screenIndexProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:counter_project/features/home/bloc/home_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Home extends StatelessWidget {
+//   const Home({super.key});
 
-  @override
-  State<Home> createState() => _HomeState();
-}
+//   @override
+//   State<Home> createState() => _HomeState();
+// }
 
-class _HomeState extends State<Home> {
-  late HomeBloc homebloc;
-  @override
-  void initState() {
-    homebloc = HomeBloc();
-    homebloc.add(HomeInitialEvent());
-    super.initState();
-  }
-
-  // final HomeBloc homebloc = HomeBloc();
-  int _currentIndex = 0;
+// class _HomeState extends State<Home> {
+  // late HomeBloc homebloc;
+  final HomeBloc homebloc = HomeBloc();
 
   @override
   Widget build(BuildContext context) {
+    final _screenindexprovider = Provider.of<screenIndexProvider>(context);
+    int currentScreenIndex = _screenindexprovider.fetchCurrentScreenIndex;
+
+    Widget currentScreen = currentScreenIndex == 0 ? Home() : Converter();
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: homebloc,
       buildWhen: (previous, current) => current is HomeActionState,
@@ -53,7 +52,10 @@ class _HomeState extends State<Home> {
                             bloc: homebloc,
                             builder: (context, state) {
                               if (state is buttonclickedstate) {
-                                return Text("${state.number}",style: TextStyle(fontSize: 30),);
+                                return Text(
+                                  "${state.number}",
+                                  style: TextStyle(fontSize: 30),
+                                );
                               } else {
                                 return Container();
                               }
@@ -96,7 +98,10 @@ class _HomeState extends State<Home> {
                                   bloc: homebloc,
                                   builder: (context, state) {
                                     if (state is buttonclickedstate) {
-                                      return Text("${state.binary}",style: TextStyle(fontSize: 30),);
+                                      return Text(
+                                        "${state.binary}",
+                                        style: TextStyle(fontSize: 30),
+                                      );
                                     } else {
                                       return Container();
                                     }
@@ -110,27 +115,30 @@ class _HomeState extends State<Home> {
                 ),
               ),
               BottomNavigationBar(
-                currentIndex: _currentIndex,
-                onTap: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                  switch (index) {
-                    case 0:
-                      homebloc.add(HomeInitialEvent());
-                      break;
-                    case 1:
-                      homebloc.add(TogglebuttonNavigateevent());
-                      break;
-                  }
-                },
-                items: const [
+                currentIndex: currentScreenIndex,
+                onTap: (value) => _screenindexprovider.updateScreenIndex(value),
+                items: [
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.arrow_circle_left),
+                    icon: Icon(
+                      (currentScreenIndex == 0)
+                          ? Icons.arrow_back_ios
+                          : Icons
+                              .arrow_back_ios_outlined, 
+                      color: (currentScreenIndex == 0)
+                          ? Colors.purple
+                          : Colors.grey,
+                    ),
                     label: 'Counter',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.arrow_circle_right_outlined),
+                    icon: Icon(
+                      (currentScreenIndex == 1)
+                          ? Icons.arrow_forward_ios
+                          : Icons.arrow_forward_ios_outlined,
+                      color: (currentScreenIndex == 1)
+                          ? Colors.purple
+                          : Colors.grey,
+                    ),
                     label: 'Converter',
                   ),
                 ],
