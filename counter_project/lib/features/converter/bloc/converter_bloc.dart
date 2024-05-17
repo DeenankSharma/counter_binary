@@ -2,15 +2,16 @@ import 'dart:async';
 // import 'dart:js_util';
 
 import 'package:bloc/bloc.dart';
-import 'package:counter_project/data/b2d_api.dart';
-import 'package:counter_project/data/d2b_api.dart';
+// import 'package:counter_project/data/b2d_api.dart';
+// import 'package:counter_project/data/d2b_api.dart';
+import 'package:counter_project/domain/repositories.dart';
 import 'package:meta/meta.dart';
 
 part 'converter_event.dart';
 part 'converter_state.dart';
 
 class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
-  final BinaryPost binaryPost = BinaryPost();
+  // final BinaryPost binaryPost = BinaryPost();
   ConverterBloc() : super(ConverterInitialState()) {
     on<ConverterInitialEvent>(converterInitialEvent);
     on<ToggleButtonBackEvent>(toggleButtonBackEvent);
@@ -29,8 +30,9 @@ FutureOr<void> convertbuttonclickedevent(Convertbuttonclickedevent event, Emitte
   try {
     String binary = event.binary;
     // print(event.binary);
-    // String decimal = " ";
-    String decimal = int.parse(binary, radix: 2).toRadixString(10);
+    print('hello');
+    String decimal = await binaryToDecimal(binary);
+    // String decimal = int.parse(binary, radix: 2).toRadixString(10);
     print(decimal);
     emit(Convertbuttonclickedstate(decimal: decimal));
   } catch (error) {

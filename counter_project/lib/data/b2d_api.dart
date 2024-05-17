@@ -1,12 +1,18 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 class BinaryPost {
   Future<String> b2d(String binary) async {
     try {
       var client = http.Client();
+      // String btd_url = dotenv.env['BTD_URL'].toString();
+      var headers = {'Content-Type': 'application/json'};
+      int contentLength = utf8.encode(jsonEncode({"num": binary})).length;
+      headers['Content-Length'] = contentLength.toString();
       var response = await client.post(
-        Uri.parse('http://127.0.0.1:5000/btd'),
-        body: {'num': binary},
+        Uri.parse('https://turtle2305.pythonanywhere.com/btd'),
+        headers: headers,
+        body: jsonEncode({"num": binary}),
       );
 
       if (response.statusCode >= 200) {

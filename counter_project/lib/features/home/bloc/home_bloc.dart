@@ -1,14 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:counter_project/data/d2b_api.dart';
+// import 'package:counter_project/data/d2b_api.dart';
+import 'package:counter_project/domain/repositories.dart';
 import 'package:meta/meta.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final DecimalPost decimalPost = DecimalPost();
+  // final DecimalPost decimalPost = DecimalPost();
   HomeBloc() : super(HomeInitialstate()) {
     on<HomeInitialEvent>(homeInitialEvent);
     on<TogglebuttonNavigateevent>(togglebuttonNavigateevent);
@@ -34,20 +35,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> plusbuttonclickedevent(Plusbuttonclickedevent event, Emitter<HomeState> emit) async {
     print('sup');
     print(event.number);
-    // String binary = await decimalPost.d2b((event.number+1));
-    String binary = (event.number+1).toRadixString(2);
+    int n=(event.number+1);
+    String binary = await decimalToBinary(n);
+    // String binary = (event.number+1).toRadixString(2);
     print(binary);
     // print(binary);
-    emit(buttonclickedstate((event.number+1),binary));
+    emit(buttonclickedstate(n,binary));
   }
 
   FutureOr<void> minusbuttonclickedevent(Minusbuttonclickedevent event, Emitter<HomeState> emit) async {
     print('what');
+    int n = (event.number-1);
     print(event.number);
-    // String binary = await decimalPost.d2b((event.number-1));
-    String binary = (event.number-1).toRadixString(2);
+    String binary = await decimalToBinary(n);
+    // String binary = (event.number-1).toRadixString(2);
     print(binary);
     // String binary =" ";
-    emit(buttonclickedstate((event.number-1),binary));
+    emit(buttonclickedstate(n,binary));
   }
 }
