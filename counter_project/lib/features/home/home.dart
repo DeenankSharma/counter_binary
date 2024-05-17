@@ -21,20 +21,38 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final _screenindexprovider = Provider.of<screenIndexProvider>(context);
     int currentScreenIndex = _screenindexprovider.fetchCurrentScreenIndex;
-
-    Widget currentScreen = currentScreenIndex == 0 ? Home() : Converter();
+    // if (currentScreenIndex ==0){
+    //       Navigator.pushReplacement(
+    //           context, MaterialPageRoute(builder: (context) => Converter()));
+    //     }
+    // Widget currentScreen = currentScreenIndex == 0 ? Home() : Converter();
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: homebloc,
       buildWhen: (previous, current) => current is HomeActionState,
       listenWhen: (previous, current) => current is HomeActionState,
       listener: (context, state) {
-        if (state is TogglebuttonNavigatestate) {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Converter()));
-        }
+        // if (state is TogglebuttonNavigatestate) {
+        //   Navigator.pushReplacement(
+        //       context, MaterialPageRoute(builder: (context) => Converter()));
+        // }
       },
       builder: (context, state) {
+        String text;
+        if (state is buttonclickedstate) {
+          text = state.binary;
+        } else {
+          text = "";
+        }
         // if (state is HomeInitialstate) {
+        if (currentScreenIndex == 1) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Converter()),
+            );
+          });
+        }
+        // Widget currentScreen = currentScreenIndex == 0 ? this : Converter();
         return Scaffold(
           appBar: AppBar(
             title: Text('Counter App', style: TextStyle(color: Colors.white)),
@@ -94,19 +112,25 @@ class Home extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold)),
-                                BlocBuilder<HomeBloc, HomeState>(
-                                  bloc: homebloc,
-                                  builder: (context, state) {
-                                    if (state is buttonclickedstate) {
-                                      return Text(
-                                        "${state.binary}",
-                                        style: TextStyle(fontSize: 30),
-                                      );
-                                    } else {
-                                      return Container();
-                                    }
-                                  },
-                                )
+                                Text(
+                                  text,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                // BlocBuilder<HomeBloc, HomeState>(
+                                //   bloc: homebloc,
+                                //   builder: (context, state) {
+                                //     if (state is buttonclickedstate) {
+                                //       return Text(
+                                //         "${state.binary}",
+                                //         style: TextStyle(fontSize: 30),
+                                //       );
+                                //     } else {
+                                //       return Container();
+                                //     }
+                                //   },
+                                // )
                               ],
                             )),
                       ],
@@ -116,14 +140,17 @@ class Home extends StatelessWidget {
               ),
               BottomNavigationBar(
                 currentIndex: currentScreenIndex,
-                onTap: (value) => _screenindexprovider.updateScreenIndex(value),
+                onTap: (value) {
+                  print(value);
+                  _screenindexprovider.updateScreenIndex(value);
+                },
+                // homebloc.add(TogglebuttonNavigateevent()),
                 items: [
                   BottomNavigationBarItem(
                     icon: Icon(
                       (currentScreenIndex == 0)
                           ? Icons.arrow_back_ios
-                          : Icons
-                              .arrow_back_ios_outlined, 
+                          : Icons.arrow_back_ios_outlined,
                       color: (currentScreenIndex == 0)
                           ? Colors.purple
                           : Colors.grey,

@@ -1,21 +1,62 @@
-import 'package:counter_project/features/home/home.dart'; // Assuming Home is imported
-import 'package:flutter/material.dart';
+// import 'dart:js';
 import 'package:counter_project/features/converter/bloc/converter_bloc.dart';
+import 'package:counter_project/features/converter/converter.dart';
+import 'package:counter_project/features/home/home.dart';
+import 'package:counter_project/providers/screenIndexProvider.dart';
+import 'package:flutter/material.dart';
+import 'package:counter_project/features/home/bloc/home_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import '../../providers/screenIndexProvider.dart';
 
 class Converter extends StatelessWidget {
-  final ConverterBloc converterBloc = ConverterBloc();
+//   const Home({super.key});
+
+//   @override
+//   State<Home> createState() => _HomeState();
+// }
+
+// class _HomeState extends State<Home> {
+  // late HomeBloc homebloc;
+  final ConverterBloc converterbloc = ConverterBloc();
 
   @override
   Widget build(BuildContext context) {
-    final _binaryController = TextEditingController();
     final _screenindexprovider = Provider.of<screenIndexProvider>(context);
     int currentScreenIndex = _screenindexprovider.fetchCurrentScreenIndex;
+    final _binaryController = TextEditingController();
 
-    Widget currentScreen = currentScreenIndex == 0 ? Home() : Converter();
-    return Scaffold(
+    // if (currentScreenIndex ==0){
+    //       Navigator.pushReplacement(
+    //           context, MaterialPageRoute(builder: (context) => Converter()));
+    //     }
+    // Widget currentScreen = currentScreenIndex == 0 ? Home() : Converter();
+    return BlocConsumer<ConverterBloc, ConverterState>(
+      bloc: converterbloc,
+      buildWhen: (previous, current) => current is ConverterActionState,
+      listenWhen: (previous, current) => current is ConverterActionState,
+      listener: (context, state) {
+        // if (state is TogglebuttonNavigatestate) {
+        //   Navigator.pushReplacement(
+        //       context, MaterialPageRoute(builder: (context) => Converter()));
+        // }
+      },
+      builder: (context, state) {
+        String text1;
+        if (state is Convertbuttonclickedstate) {
+          text1 = state.decimal;
+        } else {
+          text1 = "";
+        }
+        // if (state is HomeInitialstate) {
+        if (currentScreenIndex == 0) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+          });
+        }
+        return Scaffold(
       appBar: AppBar(
         title: Text('Converter App', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.purple,
@@ -41,7 +82,7 @@ class Converter extends StatelessWidget {
                     SizedBox(height: 20),
                     ElevatedButton(
                         onPressed: () {
-                          converterBloc.add(Convertbuttonclickedevent(
+                          converterbloc.add(Convertbuttonclickedevent(
                               binary: _binaryController.text));
                         },
                         child: Text(
@@ -52,11 +93,11 @@ class Converter extends StatelessWidget {
                         )),
                     SizedBox(height: 20),
                     Text(
-                      'The output is: ${context.watch<ConverterBloc>().state is Convertbuttonclickedstate ? (context.watch<ConverterBloc>().state as Convertbuttonclickedstate).decimal : ""}',
+                      text1,
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    currentScreen,
+                    // currentScreen,
                   ],
                 ),
               ),
@@ -90,6 +131,19 @@ class Converter extends StatelessWidget {
           ),
         ],
       ),
+    );
+        // } else {
+        //   return Scaffold(
+        //     appBar: AppBar(
+        //       title: const Text('Counter App'),
+        //       backgroundColor: Colors.orange,
+        //     ),
+        //     body: const Center(
+        //       child: Text("No data available for current state."),
+        //     ),
+        //   );
+        // }
+      },
     );
   }
 }
