@@ -1,11 +1,9 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-class BinaryPost {
+class BinaryToDecimal {
   Future<String> b2d(String binary) async {
     try {
       var client = http.Client();
-      // String btd_url = dotenv.env['BTD_URL'].toString();
       var headers = {'Content-Type': 'application/json'};
       int contentLength = utf8.encode(jsonEncode({"num": binary})).length;
       headers['Content-Length'] = contentLength.toString();

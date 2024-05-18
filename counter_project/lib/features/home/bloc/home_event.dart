@@ -5,19 +5,17 @@ abstract class HomeEvent {}
 
 class HomeInitialEvent extends HomeEvent{}
 
-class Plusbuttonclickedevent extends HomeEvent{
+class PlusButtonClickedEvent extends HomeEvent{
   final int number;
-  Plusbuttonclickedevent(this.number);
+  PlusButtonClickedEvent(this.number);
   List<Object?> get props => [number];
 
 }
 
-class Minusbuttonclickedevent extends HomeEvent{
+class MinusButtonClickedEvent extends HomeEvent{
   final int number;
-  Minusbuttonclickedevent(this.number);
+  MinusButtonClickedEvent(this.number);
   List<Object?> get props => [number];
 }
 
-// class Togglebuttonclickedevent extends HomeEvent{}
-
-class TogglebuttonNavigateevent extends HomeEvent{}
+class ToggleButtonNavigateEvent extends HomeEvent{}

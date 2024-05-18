@@ -6,8 +6,8 @@ class ConverterInitialEvent extends ConverterEvent{}
 
 class ToggleButtonBackEvent extends ConverterEvent{}
 
-class Convertbuttonclickedevent extends ConverterEvent{
+class ConvertButtonClickedEvent extends ConverterEvent{
   final String binary;
-  Convertbuttonclickedevent({required this.binary});
+  ConvertButtonClickedEvent({required this.binary});
   
 }

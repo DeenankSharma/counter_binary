@@ -16,8 +16,8 @@ dependencies:
   conversion: ^1.0.0+1
   provider: ^6.0.1
   # dotenv: ^4.2.0
-  dotenv: ^4.2.0
-  flutter_dotenv: ^5.1.0
+  # dotenv: ^4.2.0
+  # flutter_dotenv: ^5.1.0
   
 dev_dependencies:
   flutter_test:

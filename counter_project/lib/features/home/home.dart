@@ -1,4 +1,3 @@
-// import 'dart:js';
 import 'package:counter_project/features/converter/converter.dart';
 import 'package:counter_project/providers/screenIndexProvider.dart';
 import 'package:flutter/material.dart';
@@ -7,38 +6,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
-//   const Home({super.key});
 
-//   @override
-//   State<Home> createState() => _HomeState();
-// }
-
-// class _HomeState extends State<Home> {
-  // late HomeBloc homebloc;
   final HomeBloc homebloc = HomeBloc();
 
   @override
   Widget build(BuildContext context) {
     final _screenindexprovider = Provider.of<screenIndexProvider>(context);
     int currentScreenIndex = _screenindexprovider.fetchCurrentScreenIndex;
-    // if (currentScreenIndex ==0){
-    //       Navigator.pushReplacement(
-    //           context, MaterialPageRoute(builder: (context) => Converter()));
-    //     }
-    // Widget currentScreen = currentScreenIndex == 0 ? Home() : Converter();
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: homebloc,
       buildWhen: (previous, current) => current is HomeActionState,
       listenWhen: (previous, current) => current is HomeActionState,
-      listener: (context, state) {
-        // if (state is TogglebuttonNavigatestate) {
-        //   Navigator.pushReplacement(
-        //       context, MaterialPageRoute(builder: (context) => Converter()));
-        // }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         String text;
-        if (state is buttonclickedstate) {
+        if (state is ButtonClickedState) {
           text = state.binary;
         } else {
           text = "";
@@ -69,7 +51,7 @@ class Home extends StatelessWidget {
                         BlocBuilder<HomeBloc, HomeState>(
                             bloc: homebloc,
                             builder: (context, state) {
-                              if (state is buttonclickedstate) {
+                              if (state is ButtonClickedState) {
                                 return Text(
                                   "${state.number}",
                                   style: TextStyle(fontSize: 30),
@@ -85,7 +67,7 @@ class Home extends StatelessWidget {
                             ElevatedButton(
                               onPressed: () {
                                 homebloc
-                                    .add(Plusbuttonclickedevent(state.number));
+                                    .add(PlusButtonClickedEvent(state.number));
                               },
                               child: Icon(Icons.add),
                             ),
@@ -93,7 +75,7 @@ class Home extends StatelessWidget {
                             ElevatedButton(
                               onPressed: () {
                                 homebloc
-                                    .add(Minusbuttonclickedevent(state.number));
+                                    .add(MinusButtonClickedEvent(state.number));
                               },
                               child: Icon(Icons.remove),
                             ),
@@ -118,19 +100,6 @@ class Home extends StatelessWidget {
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                // BlocBuilder<HomeBloc, HomeState>(
-                                //   bloc: homebloc,
-                                //   builder: (context, state) {
-                                //     if (state is buttonclickedstate) {
-                                //       return Text(
-                                //         "${state.binary}",
-                                //         style: TextStyle(fontSize: 30),
-                                //       );
-                                //     } else {
-                                //       return Container();
-                                //     }
-                                //   },
-                                // )
                               ],
                             )),
                       ],
@@ -144,7 +113,6 @@ class Home extends StatelessWidget {
                   print(value);
                   _screenindexprovider.updateScreenIndex(value);
                 },
-                // homebloc.add(TogglebuttonNavigateevent()),
                 items: [
                   BottomNavigationBarItem(
                     icon: Icon(
@@ -173,17 +141,6 @@ class Home extends StatelessWidget {
             ],
           ),
         );
-        // } else {
-        //   return Scaffold(
-        //     appBar: AppBar(
-        //       title: const Text('Counter App'),
-        //       backgroundColor: Colors.orange,
-        //     ),
-        //     body: const Center(
-        //       child: Text("No data available for current state."),
-        //     ),
-        //   );
-        // }
       },
     );
   }

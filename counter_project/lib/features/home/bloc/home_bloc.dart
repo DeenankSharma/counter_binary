@@ -1,56 +1,48 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
-// import 'package:counter_project/data/d2b_api.dart';
-import 'package:counter_project/domain/repositories.dart';
+import 'package:counter_project/domain/conversion_repo.dart';
 import 'package:meta/meta.dart';
-
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  // final DecimalPost decimalPost = DecimalPost();
-  HomeBloc() : super(HomeInitialstate()) {
+  HomeBloc() : super(HomeInitialState()) {
     on<HomeInitialEvent>(homeInitialEvent);
-    on<TogglebuttonNavigateevent>(togglebuttonNavigateevent);
-    on<Plusbuttonclickedevent>(plusbuttonclickedevent);
-    on<Minusbuttonclickedevent>(minusbuttonclickedevent);
+    on<ToggleButtonNavigateEvent>(togglebuttonNavigateevent);
+    on<PlusButtonClickedEvent>(plusbuttonclickedevent);
+    on<MinusButtonClickedEvent>(minusbuttonclickedevent);
   }
 
   FutureOr<void> homeInitialEvent(HomeInitialEvent event, Emitter<HomeState> emit) async {
   final currentState = state;
-  if (currentState is buttonclickedstate) {
+  if (currentState is ButtonClickedState) {
     emit(currentState); 
   } else {
-    emit(buttonclickedstate(0, "0")); 
+    emit(ButtonClickedState(0, "0")); 
   }
 }
 
 
-  FutureOr<void> togglebuttonNavigateevent(TogglebuttonNavigateevent event, Emitter<HomeState> emit) {
+  FutureOr<void> togglebuttonNavigateevent(ToggleButtonNavigateEvent event, Emitter<HomeState> emit) {
     print('toggle karo plz');
-  emit(TogglebuttonNavigatestate());
+  emit(ToggleButtonNavigateState());
   }
   
-  FutureOr<void> plusbuttonclickedevent(Plusbuttonclickedevent event, Emitter<HomeState> emit) async {
+  FutureOr<void> plusbuttonclickedevent(PlusButtonClickedEvent event, Emitter<HomeState> emit) async {
     print('sup');
     print(event.number);
     int n=(event.number+1);
-    String binary = await decimalToBinary(n);
-    // String binary = (event.number+1).toRadixString(2);
-    print(binary);
-    // print(binary);
-    emit(buttonclickedstate(n,binary));
+    ConversionRepo conversionRepo = ConversionRepo();
+    String binary = await conversionRepo.decimalToBinary(n);    print(binary);
+    emit(ButtonClickedState(n,binary));
   }
 
-  FutureOr<void> minusbuttonclickedevent(Minusbuttonclickedevent event, Emitter<HomeState> emit) async {
+  FutureOr<void> minusbuttonclickedevent(MinusButtonClickedEvent event, Emitter<HomeState> emit) async {
     print('what');
     int n = (event.number-1);
     print(event.number);
-    String binary = await decimalToBinary(n);
-    // String binary = (event.number-1).toRadixString(2);
-    print(binary);
-    // String binary =" ";
-    emit(buttonclickedstate(n,binary));
+    ConversionRepo conversionRepo = ConversionRepo();
+    String binary = await conversionRepo.decimalToBinary(n);    print(binary);
+    emit(ButtonClickedState(n,binary));
   }
 }

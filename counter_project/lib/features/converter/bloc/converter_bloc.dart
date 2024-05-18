@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 // import 'package:counter_project/data/b2d_api.dart';
 // import 'package:counter_project/data/d2b_api.dart';
-import 'package:counter_project/domain/repositories.dart';
+import 'package:counter_project/domain/conversion_repo.dart';
 import 'package:meta/meta.dart';
 
 part 'converter_event.dart';
@@ -15,7 +15,7 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
   ConverterBloc() : super(ConverterInitialState()) {
     on<ConverterInitialEvent>(converterInitialEvent);
     on<ToggleButtonBackEvent>(toggleButtonBackEvent);
-    on<Convertbuttonclickedevent>(convertbuttonclickedevent);
+    on<ConvertButtonClickedEvent>(convertbuttonclickedevent);
   }
 
   FutureOr<void> toggleButtonBackEvent(ToggleButtonBackEvent event, Emitter<ConverterState> emit) {
@@ -26,17 +26,15 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
    emit(ConverterInitialState());
   }
 
-FutureOr<void> convertbuttonclickedevent(Convertbuttonclickedevent event, Emitter<ConverterState> emit) async {
+FutureOr<void> convertbuttonclickedevent(ConvertButtonClickedEvent event, Emitter<ConverterState> emit) async {
   try {
+    ConversionRepo conversionRepo = ConversionRepo();
     String binary = event.binary;
-    // print(event.binary);
     print('hello');
-    String decimal = await binaryToDecimal(binary);
-    // String decimal = int.parse(binary, radix: 2).toRadixString(10);
+    String decimal = await conversionRepo.binaryToDecimal(binary);
     print(decimal);
-    emit(Convertbuttonclickedstate(decimal: decimal));
+    emit(ConvertButtonClickedState(decimal: decimal));
   } catch (error) {
-    // Handle the exception (e.g., show an error message to the user)
     print('Error parsing binary: $error');
   }
 }

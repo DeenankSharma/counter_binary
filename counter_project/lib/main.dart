@@ -4,10 +4,8 @@ import 'package:counter_project/features/home/home.dart';
 import 'package:counter_project/providers/screenIndexProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main(){
-  dotenv.load(fileName: 'urls.env');
   runApp(MainApp());
 }
 

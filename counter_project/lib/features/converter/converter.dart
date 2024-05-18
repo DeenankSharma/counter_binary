@@ -1,4 +1,3 @@
-// import 'dart:js';
 import 'package:counter_project/features/converter/bloc/converter_bloc.dart';
 import 'package:counter_project/features/converter/converter.dart';
 import 'package:counter_project/features/home/home.dart';
@@ -9,14 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class Converter extends StatelessWidget {
-//   const Home({super.key});
 
-//   @override
-//   State<Home> createState() => _HomeState();
-// }
-
-// class _HomeState extends State<Home> {
-  // late HomeBloc homebloc;
   final ConverterBloc converterbloc = ConverterBloc();
 
   @override
@@ -24,30 +16,19 @@ class Converter extends StatelessWidget {
     final _screenindexprovider = Provider.of<screenIndexProvider>(context);
     int currentScreenIndex = _screenindexprovider.fetchCurrentScreenIndex;
     final _binaryController = TextEditingController();
-
-    // if (currentScreenIndex ==0){
-    //       Navigator.pushReplacement(
-    //           context, MaterialPageRoute(builder: (context) => Converter()));
-    //     }
-    // Widget currentScreen = currentScreenIndex == 0 ? Home() : Converter();
     return BlocConsumer<ConverterBloc, ConverterState>(
       bloc: converterbloc,
       buildWhen: (previous, current) => current is ConverterActionState,
       listenWhen: (previous, current) => current is ConverterActionState,
       listener: (context, state) {
-        // if (state is TogglebuttonNavigatestate) {
-        //   Navigator.pushReplacement(
-        //       context, MaterialPageRoute(builder: (context) => Converter()));
-        // }
       },
       builder: (context, state) {
         String text1;
-        if (state is Convertbuttonclickedstate) {
+        if (state is ConvertButtonClickedState) {
           text1 = state.decimal;
         } else {
           text1 = "";
         }
-        // if (state is HomeInitialstate) {
         if (currentScreenIndex == 0) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacement(
@@ -82,7 +63,7 @@ class Converter extends StatelessWidget {
                     SizedBox(height: 20),
                     ElevatedButton(
                         onPressed: () {
-                          converterbloc.add(Convertbuttonclickedevent(
+                          converterbloc.add(ConvertButtonClickedEvent(
                               binary: _binaryController.text));
                         },
                         child: Text(
@@ -97,7 +78,6 @@ class Converter extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    // currentScreen,
                   ],
                 ),
               ),
@@ -132,17 +112,6 @@ class Converter extends StatelessWidget {
         ],
       ),
     );
-        // } else {
-        //   return Scaffold(
-        //     appBar: AppBar(
-        //       title: const Text('Counter App'),
-        //       backgroundColor: Colors.orange,
-        //     ),
-        //     body: const Center(
-        //       child: Text("No data available for current state."),
-        //     ),
-        //   );
-        // }
       },
     );
   }

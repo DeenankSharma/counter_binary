@@ -7,22 +7,17 @@ abstract class HomeState {
 
 abstract class HomeActionState extends HomeState{}
 
-class HomeInitialstate extends HomeState {
+class HomeInitialState extends HomeState {
   final int number=0;
   List<Object> get props => [];
 }
 
-class buttonclickedstate extends HomeActionState{
+class ButtonClickedState extends HomeActionState{
   @override
   final int number;
   final String binary;
-  buttonclickedstate(this.number,this.binary);
-  // List<Object?> get props => [number];
-  
+  ButtonClickedState(this.number,this.binary);
 }
 
-// class Minusbuttonclickedstate extends HomeActionState{}
 
-// class Togglebuttonclickedstate extends HomeActionState{}
-
-class TogglebuttonNavigatestate extends HomeActionState{}
+class ToggleButtonNavigateState extends HomeActionState{}
